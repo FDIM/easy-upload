@@ -2,6 +2,7 @@
 To simplify upload handling with drag and drop with multiple forms and fallback to iframe upload for browsers not supporting ajax file upload. 
 
 ## JS code with optional block UI
+
 $('form').easyUpload({
 		onDragStart: function() {
 			$.blockUI({message: t('msg.DropFileAnywhereToUpload')});
@@ -32,7 +33,8 @@ $('form').easyUpload({
 		}
 	});
 	
-	## Html
+## Html
+	
 	<form data-accept="jpg,jpeg,png,tiff,gif,mov,mp4,avi,wmv,flv,3gp,webm,zip" action="your-upload-handler" method="POST" enctype="multipart/form-data">
 		<h2>Upload Product Media: </h2>
 		<label for="file">Upload file: </label>
@@ -44,9 +46,9 @@ $('form').easyUpload({
 		</div>
 	</form>
 	
-	## Note for iframes
-	You must return some js code to invoke some function on parent frame:
-	e.g.
+## Note for iframes
+You must return some js code to invoke some function on parent frame:
+e.g.
 	function updateUploadStatus(valid, msg){
 	  if (!valid)
 		{
