@@ -1,6 +1,5 @@
 /**
- * 
- * @author dtr
+ * @author Domas Trijonis
  * @returns jQuery
  */
 $(function () {
@@ -82,8 +81,9 @@ $(function () {
 
 			if (typeof form == 'undefined') {
 				ops.onError.apply(ops.container.eq(0),[undefined, file, "Unsupported file"]);
+			}else{
+				upload(form, file, ops);
 			}
-			upload(form, file, ops);
 		}
 	}
 	var onFormSubmit = function ($form, ops) {
@@ -95,7 +95,7 @@ $(function () {
 		var iframe = $('<iframe>');
 		iframe.prop('name', name);
 		iframe.hide();
-		ops.constainer.append(iframe);
+		$('body').append(iframe);
 		$form.prop('target', name);
 		iframe.bind('load', function () {
 			ops.onSuccess.apply(ops.container.eq(0),[$form, undefined, iframe.find('body').html()]);
@@ -152,7 +152,7 @@ $(function () {
 			return;
 		}
 		// no support for file upload
-		if (typeof FormData == 'undefined') {
+		if (typeof FormData == 'undefined' || true) {
 			this.each(function () {
 				var ops = $.extend({}, defaults, options);
 				initIframeTransport($(this), ops);
@@ -161,8 +161,8 @@ $(function () {
 		}
 		// bind to each form
 		var dragAndDropInitialized = false;
+		var ops = $.extend({}, defaults, options);
 		this.each(function () {
-			var ops = $.extend({}, defaults, options);
 			var accepts = $(this).data('accept');
 			ops.types = {};
 			if (typeof accepts != 'undefined') {
