@@ -3,7 +3,8 @@ To simplify upload handling with drag and drop with multiple forms and fallback 
 
 ## JS code with optional block UI
 
-$('form').easyUpload({
+	<script type="text/javascript">
+	$('form').easyUpload({
 		onDragStart: function() {
 			$.blockUI({message: t('msg.DropFileAnywhereToUpload')});
 		},
@@ -32,7 +33,7 @@ $('form').easyUpload({
 			progress.find('>div').width(percent + "%");
 		}
 	});
-	
+	</script>
 ## Html
 	
 	<form data-accept="jpg,jpeg,png,tiff,gif,mov,mp4,avi,wmv,flv,3gp,webm,zip" action="your-upload-handler" method="POST" enctype="multipart/form-data">
@@ -47,17 +48,21 @@ $('form').easyUpload({
 	</form>
 	
 ## Note for iframes
-You must return some js code to invoke some function on parent frame:
-e.g.
+You must return js code to invoke some function on parent frame:
+	
+	// in parent frame somewhere
 	function updateUploadStatus(valid, msg){
 	  if (!valid)
 		{
 			alert(msg);
 			return false;
 		}
-		Dialog.hide();
-		window.location = window.location;
+		Dialog.hide(); // do needed cleanup
+		window.location = window.location; // you might event return a path to newly uploaded file and just create required html markup
 	}
-	and in upload handler return something like this:
+		
+and in upload handler return something like this:
+
 	<script type="text/javascript">window.parent.updateUploadStatus(false,'Unsupported format');</script>';
+	
 	
