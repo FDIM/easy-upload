@@ -152,7 +152,7 @@ $(function () {
 			return;
 		}
 		// no support for file upload
-		if (typeof FormData == 'undefined' || true) {
+		if (typeof FormData == 'undefined') {
 			this.each(function () {
 				var ops = $.extend({}, defaults, options);
 				initIframeTransport($(this), ops);
