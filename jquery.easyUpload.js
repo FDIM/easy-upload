@@ -5,6 +5,7 @@
 $(function () {
 	var defaults = {
 		container: $(document),
+		formKey: 'file',
 		onDragStart: function () {
 		},
 		onDragStop: function () {
@@ -61,13 +62,13 @@ $(function () {
 				ops.onError.apply(ops.container.eq(0),[$form, file, xhr.responseText]);
 			}
 		});
-	}
+	};
 	var chooseForm = function (ext, ops) {
-		if (typeof ops.types[ext] != 'undefined') {
+		if (typeof ops.types[ext] !== 'undefined') {
 			return ops.types[ext];
 		}
 		return ops.types["*"];
-	}
+	};
 	var handleUpload = function (files, ops) {
 		if (files.length === 0) {
 			ops.onCancel.apply(ops.container.eq(0),[]);
@@ -79,17 +80,17 @@ $(function () {
 			var ext = parts[parts.length - 1];
 			var form = chooseForm(ext, ops);
 
-			if (typeof form == 'undefined') {
+			if (typeof form === 'undefined') {
 				ops.onError.apply(ops.container.eq(0),[undefined, file, "Unsupported file"]);
 			}else{
 				upload(form, file, ops);
 			}
 		}
-	}
+	};
 	var onFormSubmit = function ($form, ops) {
 		var files = $form.find('input[name=' + ops.formKey + ']').get(0).files;
 		handleUpload(files, ops);
-	}
+	};
 	var initIframeTransport = function ($form, ops) {
 		var name = "iframe-upload-" + (new Date().getTime());
 		var iframe = $('<iframe>');
@@ -101,7 +102,7 @@ $(function () {
 			ops.onSuccess.apply(ops.container.eq(0),[$form, undefined, iframe.find('body').html()]);
 		});
 		ops.iframe = iframe;
-	}
+	};
 	var initDragAndDrop = function (ops) {
 		var counter = 0;
 		var dragging = false;
@@ -134,9 +135,9 @@ $(function () {
 			handleUpload(files, ops);
 			return false;
 		});
-	}
+	};
 	$.fn.easyUpload = function (options) {
-		if (options == 'destroy') {
+		if (options === 'destroy') {
 			this.each(function () {
 				var $this = $(this);
 				var ops = $this.data('easyUploadOps');
@@ -152,7 +153,7 @@ $(function () {
 			return;
 		}
 		// no support for file upload
-		if (typeof FormData == 'undefined') {
+		if (typeof FormData === 'undefined') {
 			this.each(function () {
 				var ops = $.extend({}, defaults, options);
 				initIframeTransport($(this), ops);
@@ -162,10 +163,10 @@ $(function () {
 		// bind to each form
 		var dragAndDropInitialized = false;
 		var ops = $.extend({}, defaults, options);
+		ops.types = ops.types || {};
 		this.each(function () {
 			var accepts = $(this).data('accept');
-			ops.types = {};
-			if (typeof accepts != 'undefined') {
+			if (typeof accepts !== 'undefined') {
 				accepts = accepts.split(',');
 				for (var i in accepts) {
 					ops.types[accepts[i]] = $(this);
@@ -184,6 +185,6 @@ $(function () {
 			}).data('easyUploadOps', ops);
 		});
 		return this;
-	}
+	};
 	$.fn.easyUpload.defaults = defaults;
 });
